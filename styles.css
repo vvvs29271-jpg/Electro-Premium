@@ -480,6 +480,19 @@ h1, h2, h3, h4 {
   color: var(--accent-light);
 }
 
+.typewriter-cursor {
+  display: inline-block;
+  margin-left: 4px;
+  color: var(--accent-light);
+  font-weight: 700;
+  animation: blink 1s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
 .hero__subtitle {
   color: #cbd5e1;
   font-size: 1.15rem;

@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
   initLightbox();
   initCounters();
   initBgParticles();
+  initTypewriter();
 });
 
 // ===== 1. Preloader =====
@@ -183,7 +184,66 @@ function initCounters() {
   });
 }
 
-// ===== 7. Animated Background Particles =====
+// ===== 7. Typewriter Effect =====
+function initTypewriter() {
+  var typedEl = document.getElementById('typedWord');
+  if (!typedEl) return;
+
+  var words = ['Profesionale', 'Efikase', 'Eksperte', 'Moderne', 'Premium'];
+  var wordIndex = 0;
+  var charIndex = 0;
+  var isDeleting = false;
+  var lastTime = 0;
+  var typeInterval = 160;
+  var deleteInterval = 80;
+  var holdDuration = 2500;
+  var holdStart = 0;
+  var isHolding = false;
+
+  function animate(timestamp) {
+    if (!lastTime) lastTime = timestamp;
+    var delta = timestamp - lastTime;
+
+    var currentWord = words[wordIndex];
+
+    if (isHolding) {
+      if (timestamp - holdStart >= holdDuration) {
+        isHolding = false;
+        isDeleting = true;
+        lastTime = timestamp;
+      }
+    } else if (isDeleting) {
+      if (delta >= deleteInterval) {
+        charIndex = Math.max(0, charIndex - 1);
+        typedEl.textContent = currentWord.substring(0, charIndex);
+        lastTime = timestamp;
+        if (charIndex === 0) {
+          isDeleting = false;
+          wordIndex = (wordIndex + 1) % words.length;
+          isHolding = false;
+        }
+      }
+    } else {
+      if (delta >= typeInterval) {
+        charIndex = Math.min(currentWord.length, charIndex + 1);
+        typedEl.textContent = currentWord.substring(0, charIndex);
+        lastTime = timestamp;
+        if (charIndex === currentWord.length) {
+          isHolding = true;
+          holdStart = timestamp;
+        }
+      }
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+  setTimeout(function () {
+    requestAnimationFrame(animate);
+  }, 1500);
+}
+
+// ===== 8. Animated Background Particles =====
 function initBgParticles() {
   var particles = document.querySelectorAll('.bg-particle');
   if (particles.length === 0) return;
