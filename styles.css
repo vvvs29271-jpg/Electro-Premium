@@ -589,7 +589,7 @@ h1, h2, h3, h4 {
 .hero__text {
   text-align: center;
   margin: 0 auto;
-  max-width: 750px;
+  max-width: 900px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -621,6 +621,7 @@ h1, h2, h3, h4 {
   color: var(--accent-light);
   text-shadow: 0 0 18px rgba(230, 77, 77, 0.2);
   display: inline-block;
+  white-space: nowrap;
   background: linear-gradient(135deg, #ffd2d2 0%, #f7c0c0 20%, #ec7d7d 42%, #ffb2b2 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
