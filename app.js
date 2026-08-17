@@ -202,14 +202,14 @@ function initTypewriter() {
   var typedEl = document.getElementById('typedWord');
   if (!typedEl) return;
 
-  var words = [' Profesionale', ' Efikase', ' Eksperte', ' Moderne', ' Premium'];
+  var words = ['Profesionale', 'Efikase', 'Eksperte', 'Moderne', 'Premium'];
   var wordIndex = 0;
   var charIndex = 0;
   var isDeleting = false;
   var lastTime = 0;
-  var typeInterval = 160;
-  var deleteInterval = 80;
-  var holdDuration = 2500;
+  var typeInterval = 120;
+  var deleteInterval = 60;
+  var holdDuration = 1800;
   var holdStart = 0;
   var isHolding = false;
 
