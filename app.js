@@ -12,6 +12,9 @@ document.addEventListener('DOMContentLoaded', function () {
   initCounters();
   initBgParticles();
   initTypewriter();
+  initHeroGlow();
+  initScrollProgress();
+  initRevealAnimations();
 });
 
 // ===== 1. Preloader =====
@@ -154,6 +157,16 @@ function initCounters() {
   var counters = document.querySelectorAll('.counter[data-target]');
   if (counters.length === 0) return;
 
+  if (!('IntersectionObserver' in window)) {
+    counters.forEach(function (counter) {
+      var target = parseFloat(counter.getAttribute('data-target'));
+      var prefix = counter.getAttribute('data-prefix') || '';
+      var suffix = counter.getAttribute('data-suffix') || '';
+      counter.textContent = prefix + Math.floor(target) + suffix;
+    });
+    return;
+  }
+
   var observer = new IntersectionObserver(function (entries) {
     entries.forEach(function (entry) {
       if (entry.isIntersecting) {
@@ -189,7 +202,7 @@ function initTypewriter() {
   var typedEl = document.getElementById('typedWord');
   if (!typedEl) return;
 
-  var words = ['Profesionale', 'Efikase', 'Eksperte', 'Moderne', 'Premium'];
+  var words = [' Profesionale', ' Efikase', ' Eksperte', ' Moderne', ' Premium'];
   var wordIndex = 0;
   var charIndex = 0;
   var isDeleting = false;
@@ -243,7 +256,69 @@ function initTypewriter() {
   }, 1500);
 }
 
-// ===== 8. Animated Background Particles =====
+// ===== 8. Scroll Progress Bar =====
+function initScrollProgress() {
+  var progressBar = document.getElementById('scrollProgress');
+  if (!progressBar) return;
+
+  window.addEventListener('scroll', function () {
+    var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    var scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    progressBar.style.width = Math.min(Math.max(scrollPercent, 0), 100) + '%';
+  });
+}
+
+// ===== 9. Scroll Reveal Animations =====
+function initRevealAnimations() {
+  var revealElements = document.querySelectorAll('.reveal');
+  if (revealElements.length === 0) return;
+
+  if (!('IntersectionObserver' in window)) {
+    revealElements.forEach(function (el) {
+      el.classList.add('visible');
+    });
+    return;
+  }
+
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  revealElements.forEach(function (el) {
+    observer.observe(el);
+  });
+}
+
+// ===== 10. Hero Mouse Glow =====
+function initHeroGlow() {
+  var hero = document.querySelector('.hero');
+  var glow = document.getElementById('heroGlow');
+  if (!hero || !glow) return;
+
+  hero.addEventListener('mousemove', function (e) {
+    var rect = hero.getBoundingClientRect();
+    var x = e.clientX - rect.left;
+    var y = e.clientY - rect.top;
+    glow.style.left = x + 'px';
+    glow.style.top = y + 'px';
+  });
+
+  hero.addEventListener('mouseleave', function () {
+    glow.style.opacity = '0';
+  });
+
+  hero.addEventListener('mouseenter', function () {
+    glow.style.opacity = '1';
+  });
+}
+
+// ===== 11. Animated Background Particles =====
 function initBgParticles() {
   var particles = document.querySelectorAll('.bg-particle');
   if (particles.length === 0) return;

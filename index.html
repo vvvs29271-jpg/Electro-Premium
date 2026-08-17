@@ -18,6 +18,9 @@
 </head>
 <body>
 
+  <!-- ===== SCROLL PROGRESS BAR ===== -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
   <!-- ===== PRELOADER ===== -->
   <div id="preloader">
     <div class="loader">
@@ -55,7 +58,7 @@
     <div class="topbar__container">
       <div class="topbar__item">
         <i class="fa-solid fa-location-dot"></i>
-        <span>Negotino Polosko, Maqedonia e Veriut</span>
+        <span>Negotine E Pollogut, Maqedonia e Veriut</span>
       </div>
       <div class="topbar__item">
         <i class="fa-solid fa-clock"></i>
@@ -91,11 +94,12 @@
     <div class="hero__bg"></div>
     <div class="hero__blob hero__blob--1"></div>
     <div class="hero__blob hero__blob--2"></div>
+    <div class="hero__glow" id="heroGlow"></div>
     <div class="hero__content">
       <div class="hero__grid">
         <div class="hero__text">
           <h1 class="hero__title">Zgjidhje Elektrike <span class="hero__title-accent" id="typedWord">Efikase</span><span class="typewriter-cursor">|</span></h1>
-          <p class="hero__subtitle">Ekspertizë e besueshme për të gjitha nevojat tuaja elektrike. Instalime, riparime, diagnostikim dhe projekte të kompletuara me sukses.</p>
+          <p class="hero__subtitle">Ekspertizë e besueshme për instalime, riparime dhe diagnostikim elektrik me standarde të larta, siguri dhe efikasitet real.</p>
           <div class="hero__actions">
             <a href="#services" class="btn btn--primary"><i class="fa-solid fa-wrench"></i> Shërbimet Tona</a>
             <a href="#contact" class="btn btn--outline"><i class="fa-solid fa-phone"></i> Na Kontaktoni</a>
@@ -120,7 +124,7 @@
   </section>
 
   <!-- ===== TRUST BAR ===== -->
-  <section class="trustbar">
+  <section class="trustbar reveal">
     <div class="trustbar__container">
       <div class="trustbar__grid">
         <div class="trustbar__item">
@@ -156,49 +160,49 @@
   </section>
 
   <!-- ===== SERVICES ===== -->
-  <section id="services" class="services">
+  <section id="services" class="services reveal">
     <div class="container">
       <div class="section-head">
         <span class="section-tag">Shërbimet Efikase</span>
         <h2 class="section-title">Shërbimet Tona</h2>
-        <p class="section-subtitle">Ofertojmë një gamë të plotë shërbimesh elektrike për shtëpi dhe bizneset.</p>
+        <p class="section-subtitle">Zgjidhje elektrike të sigurta, moderne dhe të përshtatura për çdo shtëpi, biznese dhe objekt profesional.</p>
       </div>
       <div class="services__container">
         <div class="services__grid">
           <div class="service-card">
             <div class="service-card__icon"><i class="fa-solid fa-screwdriver-wrench"></i></div>
             <h3>Ndërrim i Panelit</h3>
-            <p>Siguruesat e vjetër qeramikë i zëvendësojmë me automatë të rinj dhe FID.</p>
+            <p>Ndryshojmë panela elektrikë të vjetër me sisteme moderne, të sigurta dhe me performancë më të lartë.</p>
             <a href="#contact" class="service-card__link">Më shumë <i class="fa-solid fa-arrow-right"></i></a>
           </div>
           <div class="service-card">
             <div class="service-card__icon"><i class="fa-solid fa-magnifying-glass-chart"></i></div>
             <h3>Diagnostikim i Shpejtë</h3>
-            <p>Defektin e gjejmë pa e prishur suvanë, me pajisje matëse gjermane.</p>
+            <p>Gjejmë dhe korrigjojmë problematikat e shpejta pa dëmtim të sistemit, me analizë të saktë dhe të besueshme.</p>
             <a href="#contact" class="service-card__link">Më shumë <i class="fa-solid fa-arrow-right"></i></a>
           </div>
           <div class="service-card">
             <div class="service-card__icon"><i class="fa-solid fa-shield-heart"></i></div>
             <h3>Rritje Sigurie</h3>
-            <p>Shtojmë priza, ndërrojmë çelsa dhe bëjmë inspektim të plotë të rrjetit.</p>
+            <p>Rrisim sigurinë e rrjetit me priza, çelësa dhe kontroll të plotë të funksionimit të çdo lidhjeje.</p>
             <a href="#contact" class="service-card__link">Më shumë <i class="fa-solid fa-arrow-right"></i></a>
           </div>
           <div class="service-card">
             <div class="service-card__icon"><i class="fa-solid fa-bolt"></i></div>
             <h3>Instalime Elektrike</h3>
-            <p>Instalim dhe konfigurim efikas i pajisjeve elektrike.</p>
+            <p>Instalim profesional i pajisjeve elektrike për ambiente të ndryshme, me cilësi dhe qëndrueshmëri.</p>
             <a href="#contact" class="service-card__link">Më shumë <i class="fa-solid fa-arrow-right"></i></a>
           </div>
           <div class="service-card">
             <div class="service-card__icon"><i class="fa-solid fa-lightbulb"></i></div>
             <h3>Sisteme LED</h3>
-            <p>Ndriçim modern dhe efikas për çdo ambient.</p>
+            <p>Ndriçim modern, me konsum të ulët dhe efikasitet maksimal për çdo hapësirë.</p>
             <a href="#contact" class="service-card__link">Më shumë <i class="fa-solid fa-arrow-right"></i></a>
           </div>
           <div class="service-card">
             <div class="service-card__icon"><i class="fa-solid fa-house"></i></div>
             <h3>Punë të Përgjithshme</h3>
-            <p>Zgjidhje të plota elektrike për shtëpi dhe biznese.</p>
+            <p>Zgjidhje të plota për shtëpi, biznese dhe objekte me nevoja të ndryshme elektrike.</p>
             <a href="#contact" class="service-card__link">Më shumë <i class="fa-solid fa-arrow-right"></i></a>
           </div>
         </div>
@@ -207,29 +211,29 @@
   </section>
 
   <!-- ===== WHY CHOOSE US ===== -->
-  <section class="why">
+  <section class="why reveal">
     <div class="container">
       <div class="why__container">
         <div class="section-head">
-          <span class="section-tag">Pse Të Zgjidhim Ne?</span>
+          <span class="section-tag">Pse te na zgjidhni ne?</span>
           <h2 class="section-title" style="color: var(--white);">Pse Electro Premium?</h2>
-          <p class="section-subtitle" style="color: #cbd5e1;">Kualiteti, siguria dhe efikasiteti janë standardet tona.</p>
+          <p class="section-subtitle" style="color: #cbd5e1;">Kualiteti, siguria dhe efikasiteti janë standardet që na dallojnë çdo ditë.</p>
         </div>
         <div class="why__grid">
           <div class="why__item">
             <i class="fa-solid fa-award"></i>
             <h3>Ekspertë të Certifikuar</h3>
-            <p>Ekspertë dhe certifikuar me përviencë të gjatë në fushën elektrike.</p>
+            <p>Ekipi ynë ka përvojë të vërtetë dhe ekspertizë të thellë në fushën elektrike.</p>
           </div>
           <div class="why__item">
             <i class="fa-solid fa-handshake"></i>
             <h3>Garanci e Garantuar</h3>
-            <p>Ofertojmë garancë për të gjitha punimet tona.</p>
+            <p>Ofertojmë garanci për çdo punë të kryer, me siguri dhe përgjegjësi të plotë.</p>
           </div>
           <div class="why__item">
             <i class="fa-solid fa-clock-rotate-left"></i>
             <h3>Emergjencë 24/7</h3>
-            <p>Dispozicioni i plotë për të gjitha nevojat tuaja, gjithë ditë dhe të gjitha orët.</p>
+            <p>Qëndrojmë gati për të ndihmuar në çdo kohë, edhe në situata urgjente dhe jashtë orarit normal.</p>
           </div>
         </div>
       </div>
@@ -237,13 +241,13 @@
   </section>
 
   <!-- ===== PROJECTS ===== -->
-  <section id="projects" class="projects">
+  <section id="projects" class="projects reveal">
     <div class="container">
       <div class="projects__container">
         <div class="section-head">
           <span class="section-tag">Projektet Tona</span>
           <h2 class="section-title">Projektet Tona</h2>
-          <p class="section-subtitle">Shikoni disa nga punët tona të fundit</p>
+          <p class="section-subtitle">Shikoni disa nga punët tona të fundit dhe eksperiencën tonë praktike.</p>
         </div>
         <div class="projects__grid">
           <div class="project-card">
@@ -294,7 +298,7 @@
   </section>
 
   <!-- ===== CONTACT ===== -->
-  <section id="contact" class="contact">
+  <section id="contact" class="contact reveal">
     <div class="container">
       <div class="contact__container">
         <div class="contact__grid">
@@ -325,11 +329,11 @@
                   <p class="contact__link-value">info@electropremium.mk</p>
                 </div>
               </a>
-              <a href="https://www.google.com/maps?q=Negotino+Polosko,+North+Macedonia" target="_blank" rel="noopener noreferrer" class="contact__link">
+              <a href="https://www.google.com/maps?q=Negotine+E+Pollogut,+North+Macedonia" target="_blank" rel="noopener noreferrer" class="contact__link">
                 <div class="contact__link-icon"><i class="fa-solid fa-location-dot"></i></div>
                 <div class="contact__link-info">
                   <p class="contact__link-label">Lokacioni</p>
-                  <p class="contact__link-value">Negotino Polosko, Maqedonia e Veriut</p>
+                  <p class="contact__link-value">Negotine E Pollogut, Maqedonia e Veriut</p>
                 </div>
               </a>
             </div>
@@ -353,7 +357,7 @@
         <div class="footer__top">
           <div class="footer__brand">
             <div class="footer__name">ELECTRO <b>PREMIUM</b></div>
-            <p>Shërbime elektrike efikase për shtëpi dhe biznes. Për çdo nevojë elektrike, me përviencë të njënatën.</p>
+            <p>Shërbime elektrike efikase për shtëpi, biznese dhe objekte të ndryshme, me profesionalizëm dhe siguri të vazhdueshme.</p>
             <div class="footer__social">
               <a href="https://wa.me/38971770726" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-whatsapp"></i></a>
               <a href="mailto:info@electropremium.mk"><i class="fa-solid fa-envelope"></i></a>
@@ -406,3 +410,5 @@
   <script src="app.js"></script>
 </body>
 </html>
+</write_to_file>
+</write_to_file>
