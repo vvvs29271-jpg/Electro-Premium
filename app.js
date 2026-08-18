@@ -15,7 +15,21 @@ document.addEventListener('DOMContentLoaded', function () {
   initHeroGlow();
   initScrollProgress();
   initRevealAnimations();
+  initTouchHoverFix();
 });
+
+// Disable hover styles after touch interactions to avoid hover sticking on iOS
+function initTouchHoverFix() {
+  function enableDisableHover() {
+    document.documentElement.classList.add('disable-hover');
+  }
+
+  window.addEventListener('touchstart', function onFirstTouch() {
+    enableDisableHover();
+    // remove listener after first touch
+    window.removeEventListener('touchstart', onFirstTouch);
+  }, { passive: true });
+}
 
 // ===== 1. Preloader =====
 function hidePreloader() {

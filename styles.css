@@ -2005,11 +2005,69 @@ h1, h2, h3, h4 {
   }
 }
 
-/* Respect user preference for reduced motion */
+/* Respect user preference for reduced motion — only disable decorative animations */
 @media (prefers-reduced-motion: reduce) {
-  * {
+  .bg-animation,
+  .bg-particle,
+  .loader,
+  .hero__glow,
+  .hero__blob,
+  .section-divider::before,
+  .btn--primary::after {
     animation: none !important;
-    transition: none !important;
-    scroll-behavior: auto !important;
   }
+
+  /* reduce intensive transitions but keep content reveal accessible */
+  .service-card,
+  .project-card,
+  .trustbar__item,
+  .why__item,
+  .testimonial,
+  .btn {
+    transition-duration: 0.12s !important;
+  }
+}
+
+/* Disable hover-specific effects on touch-only devices to avoid stuck hover states */
+@media (hover: none) {
+  .service-card:hover,
+  .service-card:hover::after,
+  .service-card:hover .service-card__icon,
+  .project-card:hover,
+  .project-card:hover img,
+  .project-card:hover .project-card__overlay,
+  .trustbar__item:hover,
+  .why__item:hover,
+  .testimonial:hover,
+  .btn--primary:hover,
+  .btn--outline:hover,
+  .header__link:hover,
+  .service-card__link:hover {
+    transform: none !important;
+    box-shadow: none !important;
+    background: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+  }
+}
+
+/* When a touch interaction is detected, aggressively disable hover effects to avoid stuck states */
+.disable-hover .service-card:hover,
+.disable-hover .service-card:hover::after,
+.disable-hover .service-card:hover .service-card__icon,
+.disable-hover .project-card:hover,
+.disable-hover .project-card:hover img,
+.disable-hover .project-card:hover .project-card__overlay,
+.disable-hover .trustbar__item:hover,
+.disable-hover .why__item:hover,
+.disable-hover .testimonial:hover,
+.disable-hover .btn--primary:hover,
+.disable-hover .btn--outline:hover,
+.disable-hover .header__link:hover,
+.disable-hover .service-card__link:hover {
+  transform: none !important;
+  box-shadow: none !important;
+  background: none !important;
+  opacity: 1 !important;
+  filter: none !important;
 }
