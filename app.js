@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
   initScrollProgress();
   initRevealAnimations();
   initTouchHoverFix();
+  initHeroVideo();
 });
 
 // Disable hover styles after touch interactions to avoid hover sticking on iOS
@@ -403,6 +404,56 @@ function initBgParticles() {
     particle.style.animationDelay = delay + 's';
     particle.style.opacity = (0.3 + Math.random() * 0.4).toString();
   });
+}
+
+// ===== Hero Video Initialization =====
+function initHeroVideo() {
+  var video = document.getElementById('heroVideo');
+  var embedWrap = document.getElementById('heroVideoEmbed');
+  if (!video) return;
+
+  // If no local sources are provided, show the fallback embed immediately
+  var sources = video.querySelectorAll('source');
+  var hasSrc = false;
+  sources.forEach(function(s) { if (s.getAttribute('src')) hasSrc = true; });
+  if (!hasSrc) {
+    video.style.display = 'none';
+    if (embedWrap) {
+      embedWrap.style.display = 'block';
+      embedWrap.setAttribute('aria-hidden', 'false');
+    }
+    return;
+  }
+
+  // Respect reduced motion preference or small screens
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    video.pause();
+    video.style.display = 'none';
+    if (embedWrap) embedWrap.style.display = 'none';
+    return;
+  }
+
+  if (window.innerWidth < 768) {
+    // don't autoplay heavy video on small devices
+    video.pause();
+    video.style.display = 'none';
+    if (embedWrap) embedWrap.style.display = 'none';
+    return;
+  }
+
+  // Try to play; catch autoplay errors
+  var playPromise = video.play();
+  if (playPromise !== undefined) {
+    playPromise.catch(function (error) {
+      // Autoplay failed — keep poster as fallback and show embed
+      video.pause();
+      video.style.display = 'none';
+      if (embedWrap) {
+        embedWrap.style.display = 'block';
+        embedWrap.setAttribute('aria-hidden', 'false');
+      }
+    });
+  }
 }
 
 // ===== Window Resize Handler =====
