@@ -1591,10 +1591,39 @@ h1, h2, h3, h4 {
 }
 
 .contact__link-value {
+  display: block;
   color: var(--primary-dark);
   font-family: var(--font-heading);
   font-weight: 600;
   font-size: 1rem;
+  line-height: 1.4;
+  transition: color 0.25s ease, background 0.25s ease;
+}
+
+.contact__phone-numbers {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.contact__phone-numbers .contact__link-value {
+  padding: 4px 10px;
+  border: 1px solid rgba(224, 32, 32, 0.12);
+  border-radius: 8px;
+  background: rgba(224, 32, 32, 0.04);
+}
+
+.contact__phone-numbers .contact__link-value:hover {
+  color: var(--accent);
+  background: rgba(224, 32, 32, 0.1);
+}
+
+@media (max-width: 480px) {
+  .contact__phone-numbers {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
 }
 
 .contact__link:hover .contact__link-value,
@@ -1647,6 +1676,7 @@ h1, h2, h3, h4 {
 .footer {
   background: linear-gradient(180deg, #171717 0%, #0f172a 100%);
   padding: 60px 5% 0;
+  scroll-margin-top: 90px;
 }
 
 .footer__container {
@@ -1700,7 +1730,8 @@ h1, h2, h3, h4 {
   margin-top: 20px;
 }
 
-.footer__social a {
+.footer__social a,
+.footer-phone__toggle {
   width: 36px;
   height: 36px;
   background: rgba(255, 255, 255, 0.08);
@@ -1711,13 +1742,62 @@ h1, h2, h3, h4 {
   justify-content: center;
   color: var(--white);
   font-size: 0.95rem;
+  cursor: pointer;
   transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
 }
 
-.footer__social a:hover {
+.footer__social a:hover,
+.footer-phone__toggle:hover {
   background: var(--accent);
   border-color: var(--accent);
   transform: translateY(-3px);
+}
+
+.footer-phone {
+  position: relative;
+}
+
+.footer-phone__toggle {
+  font: inherit;
+}
+
+.footer-phone__menu {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 10px);
+  z-index: 5;
+  display: grid;
+  gap: 4px;
+  min-width: 132px;
+  padding: 6px;
+  background: #172033;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 10px;
+  box-shadow: 0 12px 28px rgba(2, 6, 23, 0.3);
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(-50%, 6px);
+  transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+}
+
+.footer-phone.is-open .footer-phone__menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+}
+
+.footer-phone__menu a {
+  padding: 7px 9px;
+  border-radius: 6px;
+  color: var(--white);
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+.footer-phone__menu a:hover,
+.footer-phone__menu a:focus-visible {
+  color: var(--white);
+  background: var(--accent);
 }
 
 .footer__col h4 {
@@ -1953,6 +2033,10 @@ h1, h2, h3, h4 {
 }
 
 @media (max-width: 768px) {
+  .footer {
+    padding-top: 90px;
+  }
+
   .header__toggle {
     display: block;
   }
@@ -2080,6 +2164,20 @@ h1, h2, h3, h4 {
 
   .footer__brand p {
     margin: 0 auto;
+  }
+
+  .footer__social {
+    justify-content: center;
+  }
+
+  .footer-phone__menu {
+    top: calc(100% + 10px);
+    bottom: auto;
+    transform: translate(-50%, -6px);
+  }
+
+  .footer-phone.is-open .footer-phone__menu {
+    transform: translate(-50%, 0);
   }
 }
 
@@ -2210,6 +2308,31 @@ h1, h2, h3, h4 {
     opacity: 1 !important;
     filter: none !important;
   }
+
+  .contact__link:hover,
+  .contact__link:focus {
+    border-color: rgba(224, 32, 32, 0.08);
+    transform: none;
+    box-shadow: 0 18px 35px rgba(15, 23, 42, 0.06);
+  }
+
+  .contact__link:hover .contact__link-value,
+  .contact__link:hover .contact__link-label,
+  .contact__link:focus .contact__link-value,
+  .contact__link:focus .contact__link-label {
+    color: var(--text-muted);
+  }
+
+  .contact__link:hover .contact__link-value,
+  .contact__link:focus .contact__link-value {
+    color: var(--primary-dark);
+  }
+
+  .contact__phone-numbers .contact__link-value:hover,
+  .contact__phone-numbers .contact__link-value:focus {
+    color: var(--primary-dark);
+    background: rgba(224, 32, 32, 0.04);
+  }
 }
 
 /* When a touch interaction is detected, aggressively disable hover effects to avoid stuck states */
@@ -2231,4 +2354,68 @@ h1, h2, h3, h4 {
   background: none !important;
   opacity: 1 !important;
   filter: none !important;
+}
+
+.disable-hover .contact__link:hover,
+.disable-hover .contact__link:focus {
+  border-color: rgba(224, 32, 32, 0.08) !important;
+  transform: none !important;
+  box-shadow: 0 18px 35px rgba(15, 23, 42, 0.06) !important;
+}
+
+.disable-hover .contact__link:hover .contact__link-value,
+.disable-hover .contact__link:hover .contact__link-label,
+.disable-hover .contact__link:focus .contact__link-value,
+.disable-hover .contact__link:focus .contact__link-label {
+  color: var(--text-muted) !important;
+}
+
+.disable-hover .contact__link:hover .contact__link-value,
+.disable-hover .contact__link:focus .contact__link-value {
+  color: var(--primary-dark) !important;
+}
+
+.disable-hover .contact__phone-numbers .contact__link-value:hover,
+.disable-hover .contact__phone-numbers .contact__link-value:focus {
+  color: var(--primary-dark) !important;
+  background: rgba(224, 32, 32, 0.04) !important;
+}
+
+.disable-hover .footer__social a:hover,
+.disable-hover .footer__social a:focus,
+.disable-hover .footer-phone__toggle:hover,
+.disable-hover .footer-phone__toggle:focus {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+  transform: none !important;
+}
+
+@media (hover: none) {
+  .contact__link:hover,
+  .contact__link:focus,
+  .contact__phone-numbers .contact__link-value:hover,
+  .contact__phone-numbers .contact__link-value:focus,
+  .footer__social a:hover,
+  .footer-phone__toggle:hover {
+    transform: none;
+  }
+
+  .contact__link:hover,
+  .contact__link:focus {
+    border-color: rgba(224, 32, 32, 0.08);
+    box-shadow: 0 18px 35px rgba(15, 23, 42, 0.06);
+  }
+
+  .contact__link:hover .contact__link-value,
+  .contact__link:focus .contact__link-value,
+  .contact__link:hover .contact__link-label,
+  .contact__link:focus .contact__link-label {
+    color: var(--primary-dark);
+  }
+
+  .contact__phone-numbers .contact__link-value:hover,
+  .contact__phone-numbers .contact__link-value:focus {
+    color: var(--primary-dark);
+    background: rgba(224, 32, 32, 0.04);
+  }
 }

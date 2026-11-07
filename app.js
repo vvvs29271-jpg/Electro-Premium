@@ -2,8 +2,34 @@
    ELECTRO PREMIUM - Interactive JavaScript v4
    ============================================ */
 
+// Start every page reload at the beginning instead of restoring the previous
+// scroll position on mobile browsers.
+function resetScrollOnReload() {
+  var navigationEntry = performance.getEntriesByType('navigation')[0];
+  var isReload = navigationEntry && navigationEntry.type === 'reload';
+
+  if (isReload) {
+    history.replaceState(null, document.title, window.location.pathname + window.location.search);
+    window.scrollTo(0, 0);
+    setTimeout(function () {
+      window.scrollTo(0, 0);
+    }, 0);
+  }
+}
+
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+
+window.addEventListener('pageshow', function (event) {
+  if (event.persisted) {
+    window.scrollTo(0, 0);
+  }
+});
+
 // ===== DOM Ready =====
 document.addEventListener('DOMContentLoaded', function () {
+  resetScrollOnReload();
   document.documentElement.classList.add('js-ready');
   hidePreloader();
   initHeader();
@@ -17,6 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
   initScrollProgress();
   initRevealAnimations();
   initTouchHoverFix();
+  initFooterPhoneMenu();
   initHeroVideo();
 });
 
@@ -31,6 +58,51 @@ function initTouchHoverFix() {
     // remove listener after first touch
     window.removeEventListener('touchstart', onFirstTouch);
   }, { passive: true });
+
+  document.addEventListener('touchend', function (event) {
+    var target = event.target.closest('.contact__link-value, .footer__social a, .footer-phone__toggle');
+    if (target) {
+      setTimeout(function () {
+        target.blur();
+      }, 0);
+    }
+  }, { passive: true });
+}
+
+function initFooterPhoneMenu() {
+  var phone = document.querySelector('.footer-phone');
+  var toggle = phone ? phone.querySelector('.footer-phone__toggle') : null;
+
+  if (!phone || !toggle) {
+    return;
+  }
+
+  function closeMenu() {
+    phone.classList.remove('is-open');
+    toggle.setAttribute('aria-expanded', 'false');
+  }
+
+  toggle.addEventListener('click', function () {
+    var isOpen = phone.classList.toggle('is-open');
+    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+
+  phone.querySelectorAll('a').forEach(function (link) {
+    link.addEventListener('click', closeMenu);
+  });
+
+  document.addEventListener('pointerdown', function (event) {
+    if (!phone.contains(event.target)) {
+      closeMenu();
+    }
+  });
+
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape') {
+      closeMenu();
+      toggle.blur();
+    }
+  });
 }
 
 // ===== 1. Preloader =====
