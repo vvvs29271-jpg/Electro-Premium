@@ -10,16 +10,22 @@ function resetScrollOnReload() {
 
   if (isReload) {
     history.replaceState(null, document.title, window.location.pathname + window.location.search);
-    window.scrollTo(0, 0);
-    setTimeout(function () {
+    function scrollToStart() {
       window.scrollTo(0, 0);
-    }, 0);
+    }
+
+    scrollToStart();
+    requestAnimationFrame(scrollToStart);
+    setTimeout(scrollToStart, 100);
+    setTimeout(scrollToStart, 500);
   }
 }
 
 if ('scrollRestoration' in history) {
   history.scrollRestoration = 'manual';
 }
+
+resetScrollOnReload();
 
 window.addEventListener('pageshow', function (event) {
   if (event.persisted) {
@@ -29,7 +35,6 @@ window.addEventListener('pageshow', function (event) {
 
 // ===== DOM Ready =====
 document.addEventListener('DOMContentLoaded', function () {
-  resetScrollOnReload();
   document.documentElement.classList.add('js-ready');
   hidePreloader();
   initHeader();
@@ -53,20 +58,26 @@ function initTouchHoverFix() {
     document.documentElement.classList.add('disable-hover');
   }
 
-  window.addEventListener('touchstart', function onFirstTouch() {
-    enableDisableHover();
-    // remove listener after first touch
-    window.removeEventListener('touchstart', onFirstTouch);
+  window.addEventListener('pointerdown', function onFirstPointer(event) {
+    if (event.pointerType === 'touch') {
+      enableDisableHover();
+      window.removeEventListener('pointerdown', onFirstPointer);
+    }
   }, { passive: true });
 
-  document.addEventListener('touchend', function (event) {
-    var target = event.target.closest('.contact__link-value, .footer__social a, .footer-phone__toggle');
+  function clearPressedState(event) {
+    var target = event.target.closest('a, button, [role="button"]');
     if (target) {
       setTimeout(function () {
         target.blur();
       }, 0);
     }
-  }, { passive: true });
+  }
+
+  document.addEventListener('pointerup', clearPressedState, { passive: true });
+  document.addEventListener('pointercancel', clearPressedState, { passive: true });
+  document.addEventListener('touchend', clearPressedState, { passive: true });
+  document.addEventListener('touchcancel', clearPressedState, { passive: true });
 }
 
 function initFooterPhoneMenu() {
@@ -343,10 +354,15 @@ function initTypewriter() {
   var holdDuration = 1800;
   var holdStart = 0;
   var isHolding = false;
+  var typewriterTimer = null;
+
+  document.addEventListener('visibilitychange', function () {
+    lastTime = Date.now();
+  });
 
   function animate(timestamp) {
     if (!lastTime) lastTime = timestamp;
-    var delta = timestamp - lastTime;
+    var delta = Math.min(timestamp - lastTime, 250);
 
     var currentWord = words[wordIndex];
 
@@ -379,11 +395,15 @@ function initTypewriter() {
       }
     }
 
-    requestAnimationFrame(animate);
+    typewriterTimer = setTimeout(function () {
+      animate(Date.now());
+    }, 50);
   }
 
   setTimeout(function () {
-    requestAnimationFrame(animate);
+    if (!typewriterTimer) {
+      animate(Date.now());
+    }
   }, 1500);
 }
 
