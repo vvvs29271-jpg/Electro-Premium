@@ -2,10 +2,11 @@
    ELECTRO PREMIUM - Interactive JavaScript v4
    ============================================ */
 
-// Start every page load at the beginning instead of restoring the previous
+// Start every page load at the top instead of restoring the previous
 // scroll position on mobile browsers (fresh visits, reloads, back/forward).
 function resetScrollOnLoad() {
   history.replaceState(null, document.title, window.location.pathname + window.location.search);
+
   document.documentElement.style.scrollBehavior = 'auto';
 
   function scrollToStart() {
@@ -263,19 +264,13 @@ function initLightbox() {
   if (!overlay || !img || !closeBtn) return;
 
   var projectCards = document.querySelectorAll('.project-card');
-  var savedScroll = 0;
-
   projectCards.forEach(function (card) {
     var imgEl = card.querySelector('img');
     if (imgEl) {
       card.addEventListener('click', function () {
-        savedScroll = window.pageYOffset || document.documentElement.scrollTop;
         img.src = imgEl.src;
         img.alt = imgEl.getAttribute('alt') || '';
         overlay.classList.add('show');
-        document.body.style.position = 'fixed';
-        document.body.style.top = -savedScroll + 'px';
-        document.body.style.width = '100%';
         document.body.style.overflow = 'hidden';
       });
     }
@@ -283,11 +278,7 @@ function initLightbox() {
 
   function closeLightbox() {
     overlay.classList.remove('show');
-    document.body.style.position = '';
-    document.body.style.top = '';
-    document.body.style.width = '';
     document.body.style.overflow = '';
-    window.scrollTo(0, savedScroll);
   }
 
   // Close on overlay click (desktop) and touch (mobile)
@@ -568,10 +559,6 @@ function initHeroVideo() {
 }
 
 // ===== Window Resize Handler =====
-var resizeTimer;
 window.addEventListener('resize', function () {
-  clearTimeout(resizeTimer);
-  resizeTimer = setTimeout(function () {
-    initBgParticles();
-  }, 150);
+  initBgParticles();
 });
