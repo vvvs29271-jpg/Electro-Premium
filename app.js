@@ -2,30 +2,30 @@
    ELECTRO PREMIUM - Interactive JavaScript v4
    ============================================ */
 
-// Start every page reload at the beginning instead of restoring the previous
-// scroll position on mobile browsers.
-function resetScrollOnReload() {
-  var navigationEntry = performance.getEntriesByType('navigation')[0];
-  var isReload = navigationEntry && navigationEntry.type === 'reload';
+// Start every page load at the beginning instead of restoring the previous
+// scroll position on mobile browsers (fresh visits, reloads, back/forward).
+function resetScrollOnLoad() {
+  history.replaceState(null, document.title, window.location.pathname + window.location.search);
+  document.documentElement.style.scrollBehavior = 'auto';
 
-  if (isReload) {
-    history.replaceState(null, document.title, window.location.pathname + window.location.search);
-    function scrollToStart() {
-      window.scrollTo(0, 0);
-    }
-
-    scrollToStart();
-    requestAnimationFrame(scrollToStart);
-    setTimeout(scrollToStart, 100);
-    setTimeout(scrollToStart, 500);
+  function scrollToStart() {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
   }
+
+  scrollToStart();
+  requestAnimationFrame(scrollToStart);
+  setTimeout(scrollToStart, 100);
+  setTimeout(function () {
+    scrollToStart();
+    document.documentElement.style.removeProperty('scroll-behavior');
+  }, 500);
 }
 
 if ('scrollRestoration' in history) {
   history.scrollRestoration = 'manual';
 }
 
-resetScrollOnReload();
+resetScrollOnLoad();
 
 window.addEventListener('pageshow', function (event) {
   if (event.persisted) {
@@ -35,6 +35,14 @@ window.addEventListener('pageshow', function (event) {
 
 // ===== DOM Ready =====
 document.addEventListener('DOMContentLoaded', function () {
+  // Always open at the hero (top). Clear any hash fragment that might
+  // point to a lower section (e.g. #contact) when opening from a
+  // WhatsApp link or other external source.
+  if (window.location.hash && window.location.hash !== '#home') {
+    history.replaceState(null, document.title, window.location.pathname + window.location.search);
+  }
+  window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+
   document.documentElement.classList.add('js-ready');
   hidePreloader();
   initHeader();
@@ -255,13 +263,19 @@ function initLightbox() {
   if (!overlay || !img || !closeBtn) return;
 
   var projectCards = document.querySelectorAll('.project-card');
+  var savedScroll = 0;
+
   projectCards.forEach(function (card) {
     var imgEl = card.querySelector('img');
     if (imgEl) {
       card.addEventListener('click', function () {
+        savedScroll = window.pageYOffset || document.documentElement.scrollTop;
         img.src = imgEl.src;
         img.alt = imgEl.getAttribute('alt') || '';
         overlay.classList.add('show');
+        document.body.style.position = 'fixed';
+        document.body.style.top = -savedScroll + 'px';
+        document.body.style.width = '100%';
         document.body.style.overflow = 'hidden';
       });
     }
@@ -269,7 +283,11 @@ function initLightbox() {
 
   function closeLightbox() {
     overlay.classList.remove('show');
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
     document.body.style.overflow = '';
+    window.scrollTo(0, savedScroll);
   }
 
   // Close on overlay click (desktop) and touch (mobile)
@@ -550,6 +568,10 @@ function initHeroVideo() {
 }
 
 // ===== Window Resize Handler =====
+var resizeTimer;
 window.addEventListener('resize', function () {
-  initBgParticles();
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(function () {
+    initBgParticles();
+  }, 150);
 });

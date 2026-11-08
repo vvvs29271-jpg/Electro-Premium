@@ -56,6 +56,7 @@ body {
   color: var(--text-light);
   line-height: 1.7;
   overflow-x: hidden;
+  touch-action: manipulation;
 }
 
 /* ===== Custom Scrollbar ===== */
@@ -115,11 +116,19 @@ body {
 img {
   max-width: 100%;
   display: block;
+  width: 100%;
+  height: auto;
+  overflow-anchor: auto;
 }
 
 a {
   text-decoration: none;
   color: inherit;
+  touch-action: manipulation;
+}
+
+button, [role="button"], .header__toggle, .whatsapp-float, .back-to-top {
+  touch-action: manipulation;
 }
 
 ul {
@@ -621,12 +630,10 @@ h1, h2, h3, h4 {
   line-height: 1.08;
   margin: 0 auto 20px;
   min-height: 7.8rem;
-  display: inline-flex;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 0.14em;
-  white-space: nowrap;
-  width: max-content;
+  display: block;
+  text-align: center;
+  white-space: normal;
+  overflow-wrap: anywhere;
   max-width: 100%;
   letter-spacing: 0.02em;
   text-shadow: 0 10px 28px rgba(224, 32, 32, 0.18);
@@ -639,8 +646,10 @@ h1, h2, h3, h4 {
 .hero__title-accent {
   color: var(--accent-light);
   text-shadow: 0 0 18px rgba(230, 77, 77, 0.18);
-  display: inline-block;
-  white-space: nowrap;
+  display: block;
+  text-align: center;
+  white-space: normal;
+  overflow-wrap: anywhere;
   background: linear-gradient(145deg, #ffdcdc 0%, #f5a0a0 16%, #ee6767 34%, #dd2d2d 58%, #9b0f0f 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -849,6 +858,7 @@ h1, h2, h3, h4 {
 .about {
   background: var(--white);
   padding: 80px 5%;
+  scroll-margin-top: 100px;
 }
 
 .about__container {
@@ -968,6 +978,7 @@ h1, h2, h3, h4 {
 .services {
   background: var(--off-white);
   padding: 80px 5%;
+  scroll-margin-top: 100px;
 }
 
 .services__container {
@@ -1091,6 +1102,7 @@ h1, h2, h3, h4 {
 .why {
   background: linear-gradient(180deg, #141414 0%, #1d1d1d 100%);
   padding: 88px 5%;
+  scroll-margin-top: 100px;
 }
 
 .why__container {
@@ -1197,6 +1209,7 @@ h1, h2, h3, h4 {
 .projects {
   background: var(--white);
   padding: 80px 5%;
+  scroll-margin-top: 100px;
 }
 
 .projects__container {
@@ -1277,6 +1290,7 @@ h1, h2, h3, h4 {
   position: relative;
   padding: 96px 5%;
   overflow: hidden;
+  scroll-margin-top: 100px;
   background:
     radial-gradient(circle at 8% 15%, rgba(224, 32, 32, 0.1), transparent 30%),
     linear-gradient(180deg, #f8fafc 0%, #fff 100%);
@@ -1385,6 +1399,7 @@ h1, h2, h3, h4 {
 .testimonials {
   background: var(--off-white);
   padding: 80px 5%;
+  scroll-margin-top: 100px;
 }
 
 .testimonials__container {
@@ -1463,6 +1478,7 @@ h1, h2, h3, h4 {
 .faq {
   background: var(--white);
   padding: 80px 5%;
+  scroll-margin-top: 100px;
 }
 
 .faq__container {
@@ -1540,6 +1556,7 @@ h1, h2, h3, h4 {
 .contact {
   background: linear-gradient(180deg, #f8f8f8 0%, #f2f3f5 100%);
   padding: 80px 5%;
+  scroll-margin-top: 100px;
 }
 
 .contact__container {
@@ -2469,4 +2486,76 @@ h1, h2, h3, h4 {
     color: var(--primary-dark);
     background: rgba(224, 32, 32, 0.04);
   }
+}
+
+/* ===== Extra Small Screens (phones < 480px) ===== */
+@media (max-width: 479px) {
+  .whatsapp-float {
+    bottom: 20px;
+    right: 20px;
+    width: 52px;
+    height: 52px;
+    font-size: 1.75rem;
+    z-index: 1001;
+  }
+
+  .back-to-top {
+    bottom: 20px;
+    left: 20px;
+    width: 48px;
+    height: 48px;
+    font-size: 1.1rem;
+    z-index: 1001;
+  }
+
+  .hero__title {
+    min-height: 6.5rem;
+  }
+
+  .hero__actions {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .hero__actions .btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Prevent floating buttons from covering footer content */
+  .footer {
+    padding-bottom: 100px;
+  }
+
+  /* iPhone safe area support */
+  .whatsapp-float {
+    bottom: calc(20px + env(safe-area-inset-bottom));
+    right: calc(20px + env(safe-area-inset-right));
+  }
+
+  .back-to-top {
+    bottom: calc(20px + env(safe-area-inset-bottom));
+    left: calc(20px + env(safe-area-inset-left));
+  }
+}
+
+/* ===== Tablet & Small Laptop ===== */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .services__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .why__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .projects__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Ensure no horizontal scrollbar on any device */
+html, body {
+  max-width: 100vw;
+  overflow-x: clip;
 }
