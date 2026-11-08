@@ -276,24 +276,27 @@ function initLightbox() {
     }
   });
 
-  function closeLightbox() {
+  function closeLightbox(event) {
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
     overlay.classList.remove('show');
     document.body.style.overflow = '';
   }
 
   // Close on overlay click (desktop) and touch (mobile)
   overlay.addEventListener('click', function (e) {
-    if (e.target === overlay) closeLightbox();
+    if (e.target === overlay) closeLightbox(e);
   });
   overlay.addEventListener('touchstart', function (e) {
-    if (e.target === overlay) closeLightbox();
-  }, { passive: true });
+    if (e.target === overlay) closeLightbox(e);
+  }, { passive: false });
 
   // Close button should respond to both click and touchstart for old Android webviews
   closeBtn.addEventListener('click', closeLightbox);
   closeBtn.addEventListener('touchstart', function (e) {
-    e.preventDefault();
-    closeLightbox();
+    closeLightbox(e);
   }, { passive: false });
 
   document.addEventListener('keydown', function (e) {
